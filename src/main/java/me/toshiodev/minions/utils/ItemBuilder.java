@@ -2,6 +2,7 @@ package me.toshiodev.minions.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import me.toshiodev.minions.minions.Minion;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -155,7 +156,14 @@ public class ItemBuilder {
         return new ItemStack[]{c, l, b};
     }
 
+    public static ItemStack getMinionHeadItem(Minion minion) {
+        ItemStack head = NBTEditor.getHead(minion.getCurrentTier().getHeadUrl());
+        head = NBTEditor.set(head, new Object[]{minion.getID(),minion.getMinionTier(),minion.getUuid(),minion.getTimestamp()}, new Object[]{"id","generator_tier","uuid","timestamp"});
+        return head;
+    }
+
     public static void addItemFlags(ItemMeta itemMeta) {
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
     }
+
 }

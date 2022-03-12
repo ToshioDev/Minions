@@ -2,8 +2,10 @@ package me.toshiodev.minions.minions;
 
 import org.bukkit.Location;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.UUID;
 
 public class Minion {
@@ -11,6 +13,7 @@ public class Minion {
     private boolean isActive;
     private boolean forCraft;
     private UUID uuid;
+    private String timestamp;
     private Location loc;
     private String name;
     private String owner;
@@ -19,11 +22,15 @@ public class Minion {
     private ArrayList<MinionTier> tiers;
     private int minionTier;
     private Layout layout;
-    public Minion(String name, Location loc, String owner){
+    public Minion(String name, Location loc, String owner, int idTier){
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.loc = loc;
         this.owner = owner;
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+        this.timestamp = sdf.format(date);
 
         for (MinionType type : MinionType.values()) {
             if (Arrays.stream(type.getMinions()).anyMatch(name::equals)) {
@@ -32,6 +39,9 @@ public class Minion {
         }
         this.tiers = new ArrayList<>();
         addTiers();
+        this.minionTier = idTier;
+        this.currentTier = tiers.get(idTier);
+
         this.layout = new Layout(this);
 
 
@@ -80,41 +90,29 @@ public class Minion {
     public MinionType getType() {
         return type;
     }
-}
 
-class MinionTier{
-    private int id;
-    private boolean forCraft;
-    private double cooldown;
-    private int maxStorage;
-    private String headUrl;
-
-    public MinionTier(int id, double cooldown, int maxStorage, String headUrl, boolean forCraft) {
-        this.id = id;
-        this.cooldown = cooldown;
-        this.maxStorage = maxStorage;
-        this.headUrl = headUrl;
-        this.forCraft = forCraft;
+    public String getOwner() {
+        return owner;
     }
 
-    public int getId() {
-        return id;
+    public int getMinionTier() {
+        return minionTier;
     }
 
-    public double getCooldown() {
-        return cooldown;
+    public MinionTier getCurrentTier() {
+        return currentTier;
     }
 
-    public int getMaxStorage() {
-        return maxStorage;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public String getHeadUrl() {
-        return headUrl;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public boolean isForCraft() {
-        return forCraft;
+    public String getID(){
+        return (name + "_generator_" + minionTier).toUpperCase();
     }
 }
 

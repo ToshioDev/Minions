@@ -3,3 +3,8 @@ version: '${project.version}'
 main: me.toshiodev.minions.Init
 authors: [ NekoCraftYT ]
 description: Minions Plugin for Minecraft Servers
+commands:
+  minions:
+    aliases:
+      - mini
+      - minion

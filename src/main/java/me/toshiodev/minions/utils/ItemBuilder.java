@@ -30,7 +30,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack item(ItemStack item, String displayName, List<String> s) {
-        ItemStack itemStack = item.clone();
+        ItemStack itemStack = item;
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta.hasLore()) {
             itemMeta.getLore().clear();
@@ -161,12 +161,6 @@ public class ItemBuilder {
         bm.setColor(color);
         b.setItemMeta(bm);
         return new ItemStack[]{c, l, b};
-    }
-
-    public static ItemStack getMinionHeadItem(Minion minion) {
-        ItemStack head = NBTEditor.getHead(minion.getCurrentTier().getHeadUrl());
-        head = NBTEditor.set(head, new Object[]{minion.getID(),minion.getMinionTier(),minion.getUuid(),minion.getTimestamp()}, new Object[]{"id","generator_tier","uuid","timestamp"});
-        return head;
     }
 
     public static void addItemFlags(ItemMeta itemMeta) {

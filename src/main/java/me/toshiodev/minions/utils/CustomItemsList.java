@@ -1,9 +1,12 @@
-package me.toshiodev.minions.minions;
+package me.toshiodev.minions.utils;
 
-import me.toshiodev.minions.utils.ItemBuilder;
-import me.toshiodev.minions.utils.TextUtils;
+import me.toshiodev.minions.guis.MinionUIType;
+import me.toshiodev.minions.minions.Minion;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 
@@ -29,5 +32,23 @@ public class CustomItemsList {
 
     public static ItemStack getStorageItem(int tier){
         return ItemBuilder.item(Material.STAINED_GLASS_PANE, 1, (short) 0, "§eStorage unlocked at tier " + TextUtils.romanize(tier));
+    }
+
+    public static ItemStack getMinionIcon(Minion minion, String actionString){
+        ItemStack head = NBTEditor.getHead(minion.getCurrentTier().getHeadUrl());
+        List<String> lore = new ArrayList<>();
+        for (String line : minion.getDescription()) {
+            lore.add(line);
+        }
+        lore.add("§7");
+        lore.add("§7Time Beetwen Actions: §a" + minion.getCurrentTier().getCooldown() + "s");
+        lore.add("§7Max Storage: §e" + minion.getCurrentTier().getMaxStorage());
+        lore.add("§7Resources Generated: §b" + minion.getResourcesGenerated());
+        if (actionString != null){
+            lore.add("§7");
+            lore.add(actionString);
+        }
+        head = ItemBuilder.item(head, "§9"+ MinionUIType.PRINCIPAL.getTitle().replace("%id%", TextUtils.format(minion.getName())).replace("%tier%", TextUtils.romanize(minion.getCurrentTier().getId())), lore);
+        return NBTEditor.set(head, new Object[]{minion.getID(),minion.getMinionTier(),minion.getUuid(),minion.getTimestamp()}, new Object[]{"id","generator_tier","uuid","timestamp"});
     }
 }

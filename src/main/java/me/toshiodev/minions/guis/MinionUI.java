@@ -1,8 +1,7 @@
 package me.toshiodev.minions.guis;
 
-import me.toshiodev.minions.minions.CustomItemsList;
+import me.toshiodev.minions.utils.CustomItemsList;
 import me.toshiodev.minions.minions.Minion;
-import me.toshiodev.minions.minions.MinionTier;
 import me.toshiodev.minions.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -11,8 +10,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-
-import java.util.HashMap;
 
 public class MinionUI implements Listener, InventoryHolder {
 
@@ -58,12 +55,13 @@ public class MinionUI implements Listener, InventoryHolder {
         for (int slot : minion.getLayout().getGuiLayout().keySet()){
             inventory.setItem(slot, minion.getLayout().getGuiLayout().get(slot));
         }
+        inventory.setItem(22, CustomItemsList.getMinionIcon(minion,null));
         return inventory;
     }
 
     public Inventory createPrincipalInventory() {
         int[] background = new int[] { 0,1,2,6,7,8,9,11,12,13,14,15,16,17,18,20,26,27,29,35,36,38,44,45,47,49,51,52 };
-        storageSlots[] slots = new storageSlots[] {new storageSlots(1,null),new storageSlots(2,new int[]{22,23}),new storageSlots(3,null), new storageSlots(4,new int[]{24,25,30}), new storageSlots(5,null), new storageSlots(6, new int[]{31,32,33}), new storageSlots(7,null), new storageSlots(8, new int[]{34,39,40}), new storageSlots(9,null), new storageSlots(10, new int[]{41,42,43})};
+        StorageSlots[] slots = new StorageSlots[] {new StorageSlots(1,null),new StorageSlots(2,new int[]{22,23}),new StorageSlots(3,null), new StorageSlots(4,new int[]{24,25,30}), new StorageSlots(5,null), new StorageSlots(6, new int[]{31,32,33}), new StorageSlots(7,null), new StorageSlots(8, new int[]{34,39,40}), new StorageSlots(9,null), new StorageSlots(10, new int[]{41,42,43})};
         Inventory inventory = Bukkit.createInventory(this, 9*6, MinionUIType.PRINCIPAL.getTitle().replace("%id%", TextUtils.format(minion.getName())).replace("%tier%", TextUtils.romanize(minion.getCurrentTier().getId())));
 
         int j = minion.getMinionTier() - 1;
@@ -80,7 +78,7 @@ public class MinionUI implements Listener, InventoryHolder {
         for (int slot : background) {
             inventory.setItem(slot, CustomItemsList.BACKGROUND);
         }
-
+        inventory.setItem(4, CustomItemsList.getMinionIcon(minion,null));
         return inventory;
     }
     @Override
@@ -117,11 +115,11 @@ public class MinionUI implements Listener, InventoryHolder {
     }
 }
 
-class storageSlots {
+class StorageSlots {
     private int tier;
     private int[] slots;
 
-    public storageSlots(int tier, int[] slots) {
+    public StorageSlots(int tier, int[] slots) {
         this.tier = tier;
         this.slots = slots;
     }

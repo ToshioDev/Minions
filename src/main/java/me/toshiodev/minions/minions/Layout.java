@@ -1,5 +1,6 @@
 package me.toshiodev.minions.minions;
 
+import me.toshiodev.minions.utils.CustomItemsList;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;

@@ -1,6 +1,7 @@
 package me.toshiodev.minions;
 
 import me.toshiodev.minions.commands.CommandMinion;
+import me.toshiodev.minions.commands.CommandTest;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -26,6 +27,7 @@ public final class Init extends JavaPlugin implements Listener {
         plugin = this;
         getServer().getConsoleSender().sendMessage(prefix + "§aPlugin has been enabled!");
         getServer().getPluginCommand("minions").setExecutor(new CommandMinion());
+        getServer().getPluginCommand("test").setExecutor(new CommandTest());
         getServer().getPluginManager().registerEvents(this, this);
     }
 

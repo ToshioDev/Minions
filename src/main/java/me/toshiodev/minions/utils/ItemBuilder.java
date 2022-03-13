@@ -63,7 +63,14 @@ public class ItemBuilder {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
-
+    public static ItemStack item(Material material, int n, short n2, String displayName) {
+        ItemStack itemStack = new ItemStack(material, n, n2);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(displayName);
+        addItemFlags(itemMeta);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
     public static ItemStack item(Material material, int n, short n2, String displayName, List<String> s) {
         ItemStack itemStack = new ItemStack(material, n, n2);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -103,7 +110,7 @@ public class ItemBuilder {
             return head;
         }
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        headMeta.setDisplayName(ColoredText.chatColored(displayName));
+        headMeta.setDisplayName(TextUtils.chatColored(displayName));
         headMeta.setLore((lore.isEmpty() ? new ArrayList<>() : Arrays.asList(lore.split("\\n"))));
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", url));
